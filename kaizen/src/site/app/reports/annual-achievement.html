@@ -15,7 +15,7 @@
     </div><br>
 
     <div class="col-sm-12" id="printDiv">
-        <h3 class="text-center" ng-show="printMode === 'true'">Annual Achievement Report</h3>
+        <h3 class="text-center" ng-show="printMode === 'true'">Annual Achievement Report on {{year}}</h3>
         <table class="table" style="margin-bottom: 0px">
             <col style="width: 25%">
             <col style="width: 15%">
@@ -41,9 +41,8 @@
                     <tr ng-repeat="summary in summaryList">
                         <td>{{summary[1]}}</td>
                         <td>{{summary[2]}}</td>
-                        <td ng-show="summary[3] === null">0</td>
-                        <td ng-show="summary[3] !== null">{{summary[3]}}</td>
-                        <td><label class="label label-success" ng-if="summary[2] === summary[3]" ng-show="summary[2] === summary[3]">Achieved</label>
+                        <td><label ng-if="summary[3] === null">0</label><label ng-if="summary[3] !== null">{{summary[3]}}</label></td>
+                        <td><label class="label label-success" ng-if="summary[2] <= summary[3]" ng-show="summary[2] <= summary[3]">Achieved</label>
                             <label class="label label-danger" ng-if="summary[2] > summary[3]" ng-show="summary[2] > summary[3]">Not Achieved</label>
                         </td>
                     </tr>

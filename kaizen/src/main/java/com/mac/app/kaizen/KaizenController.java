@@ -9,6 +9,8 @@ import com.mac.app.document.model.Document;
 import com.mac.app.kaizen.model.Mail;
 
 import com.mac.app.kaizen.model.TKaizen;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -30,8 +32,7 @@ public class KaizenController {
     @Autowired
     private KaizenService kaizenService;
 
-
-    @RequestMapping(value = "/{company}",method = RequestMethod.GET)
+    @RequestMapping(value = "/{company}", method = RequestMethod.GET)
     public List<TKaizen> allKaizen(@PathVariable int company) {
         return kaizenService.findByCompany(company);
     }
@@ -39,6 +40,16 @@ public class KaizenController {
     @RequestMapping(value = "/department-kaizen/{indexNo}", method = RequestMethod.GET)
     public List<TKaizen> getKaizenByDepartment(@PathVariable Integer indexNo) {
         return kaizenService.getKaizenByDepartment(indexNo);
+    }
+
+    @RequestMapping(value = "/month-kaizen/{year}/{month}/{company}", method = RequestMethod.GET)
+    public List<TKaizen> getKaizenByMonth(@PathVariable String year, @PathVariable String month, @PathVariable int company) {
+        return kaizenService.getKaizenByMonth(year, month, company);
+    }
+//
+    @RequestMapping(value = "/department-month-kaizen/month/department/{year}/{month}/{department}/{company}", method = RequestMethod.GET)
+    public List<TKaizen> getKaizenByDepartmentAndMonth(@PathVariable String year, @PathVariable String month, @PathVariable int company,@PathVariable Integer department) {
+        return kaizenService.getKaizenByDepartmentAndMonth(year,month,company,department);
     }
 
     @RequestMapping(value = "/employee-kaizen/{epfNo}", method = RequestMethod.GET)
@@ -53,7 +64,7 @@ public class KaizenController {
 
     @RequestMapping(value = "/delete-kaizen/{indexNo}", method = RequestMethod.POST)
     public void deleteKaizen(@PathVariable Integer indexNo, @RequestBody Mail mail) {
-        kaizenService.deleteKaizen(indexNo,mail);
+        kaizenService.deleteKaizen(indexNo, mail);
     }
 
     @RequestMapping(value = "/update-committee-kaizen", method = RequestMethod.POST)
@@ -73,7 +84,7 @@ public class KaizenController {
     public TKaizen sendSuggestionEmail(@RequestBody Mail mail, @PathVariable("indexNo") Integer indexNo) {
         return kaizenService.updateKaizenByIndex(mail, indexNo);
     }
-    
+
     // send appreciation mail
     @RequestMapping(value = "/send-appreciation-mail/{indexNo}", method = RequestMethod.POST)
     public TKaizen sendAppreciationEmail(@RequestBody Mail mail, @PathVariable("indexNo") Integer indexNo) {

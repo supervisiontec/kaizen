@@ -107,7 +107,7 @@
                 //validate model
                 $scope.validateInput = function () {
                     if ($scope.model.name && $scope.model.type
-                            && $scope.model.epfNo && $scope.model.department && $scope.model.email
+                            && $scope.model.epfNo && $scope.model.department
                             && $scope.model.branch) {
                         return true;
                     } else {

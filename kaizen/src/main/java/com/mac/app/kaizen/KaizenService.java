@@ -289,4 +289,12 @@ public class KaizenService {
         }
     }
 
+    List<TKaizen> getKaizenByMonth(String year, String month, int company) {
+        return kaizenRepository.findByDate(year, month, company);
+    }
+
+    List<TKaizen> getKaizenByDepartmentAndMonth(String year, String month, int company, Integer department) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
 }
