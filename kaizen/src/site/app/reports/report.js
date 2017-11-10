@@ -187,9 +187,9 @@
                     SummaryFactory.getMonthWiseDetails(year
                             , function (data) {
                                 $scope.monthWiseList = [];
-                                angular.forEach(data, function (value){
+                                angular.forEach(data, function (value) {
                                     var company = parseInt(value.company);
-                                    if(company === $rootScope.company){
+                                    if (company === $rootScope.company) {
                                         $scope.monthWiseList.push(value);
                                     }
                                 });
@@ -471,6 +471,15 @@
 
                 $scope.saveTopKaizen = function () {
                     $scope.http.saveTopkaizen();
+                };
+
+                $scope.getPrasentage = function (value3, value2) {
+                    var val = (value3 / value2 * 100);
+                    if (isNaN(val)) {
+                        val = 0;
+                    }
+                    return Math.round(val);
+//                    return matchMedia() val;
                 };
 
 
