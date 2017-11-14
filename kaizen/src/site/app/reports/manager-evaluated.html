@@ -18,7 +18,7 @@
                 <!--<input type="date" class="form-control">-->
                 <select name="yearpicker" id="yearpicker" class="form-control" ng-model="month" ng-change="selectEvaluateMonth(month)">
                     <option value=''>--Select Month--</option>
-                    <option selected value='01'>Janaury</option>
+                    <option selected value='01'>January</option>
                     <option value='02'>February</option>
                     <option value='03'>March</option>
                     <option value='04'>April</option>
@@ -35,98 +35,151 @@
         </div>
     </div><br>
 
-    <div class="col-sm-12 " id="printDiv">
-        <h3 class="text-center" ng-show="printMode === 'true'" >Evaluated Detail Report on {{year}}-{{month}}</h3>
+    <div class="col-sm-12 ">
+        <!--        <h3 class="text-center" ng-show="printMode === 'true'" >Evaluated Detail Report on {{year}}-{{month}}</h3>-->
         <table class="table" style="margin-bottom: 0px" >
-            <!--<col style="width: 10%">-->
             <col style="width: 30%">
             <col style="width: 15%">
-            <col style="width: 20%">
-            <col style="width: 20%">
             <col style="width: 15%">
-            <thead style="background-color: #eeeeee">
+            <col style="width: 15%">
+            <col style="width: 15%">
+            <col style="width: 10%">
+            <thead style="background-color: #eeeeee;">
                 <tr>
-                    <!--<th>Month</th>-->
                     <th>Department</th>
                     <th>Annual Target</th>
-                    <th>Received by the manager</th>
-                    <th>Evaluated kaizens</th>
+                    <th>Total Received Kaizens</th>
+                    <th>Total Evaluated Kaizens</th>
+                    <th>Total Pending Kaizens to Evaluate</th>
                     <th>Status</th>
                 </tr>
             </thead>
         </table>
 
-        <div ng-show="countList.length" class="smart-scroll-y" style="height: calc(100vh - 225px);">
+        <div ng-show="countList.length" class="smart-scroll-y" style="height: calc(100vh - 270px);">
             <table class="table">
-                <!--<col style="width: 10%">-->
                 <col style="width: 30%">
                 <col style="width: 15%">
-                <col style="width: 20%">
-                <col style="width: 20%">
                 <col style="width: 15%">
+                <col style="width: 15%">
+                <col style="width: 15%">
+                <col style="width: 10%">
                 <tbody>
                     <tr ng-repeat="summary in countList">
                         <td>{{summary[1]}}</td>
                         <td>{{summary[0]}}</td>
                         <td>{{summary[2]}}</td>
-                        <td >{{summary[3]}}</td>
-                        <td>
-                            <label class="label label-success" ng-if="summary[3] / summary[2] * 100 === 100">{{getPrasentage(summary[3],summary[2])}}% complete</label>
-                            <label class="label label-danger" ng-if="summary[3] / summary[2] !== 1">{{getPrasentage(summary[3],summary[2])}}% Not complete</label>
-                        </td>
+                        <td>{{summary[3]}}</td>
+                        <td>{{summary[2] - summary[3]}}</td>
+                        <td ng-style="myStyle">
+                            {{getTotals(summary[0],summary[2],summary[3])}}
+                            <label>{{getPrasentage(summary[3], summary[2])}} {{status}}</label>
+                        </td><!--
+                        <!--                        <td ng-show="summary[3] / summary[2] * 100 === 100" style="background-color: #00cc00">
+                                                    <label class="label label-success" ng-if="summary[3] / summary[2] * 100 === 100">{{getPrasentage(summary[3], summary[2])}}% complete</label>
+                                                </td>
+                                                <td ng-show="summary[3] / summary[2] !== 1" style="background-color: #ff3333">
+                                                    <label class="label label-danger" ng-if="summary[3] / summary[2] !== 1">{{getPrasentage(summary[3], summary[2])}}% Not complete</label>
+                                                </td>-->
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div style="height: 30px;" ng-show="countList.length">
+            <table class="table">
+                <col style="width: 30%">
+                <col style="width: 15%">
+                <col style="width: 15%">
+                <col style="width: 15%">
+                <col style="width: 15%">
+                <col style="width: 10%">
+                <tbody>
+                    <tr>
+                        <td>TOTAL</td>
+                        <td>{{totalTargets}}</td>
+                        <td>{{totalReceved}}</td>
+                        <td>{{totalEvaluated}}</td>
+                        <td>{{totalPending}}</td>
+                        <td></td>
                     </tr>
                 </tbody>
             </table>
         </div>
     </div>
+
     <!--print report-->
     <div class="col-sm-12" style="display: none" id="printDiv">
-        <h3 class="text-center">Evaluated Detail Report</h3>
-        <table class="table table-bordered" style="margin-bottom: 0px">
-            <col style="width: 10%">
-            <col style="width: 25%">
+        <h3 class="text-center">Manager Kaizen Evaluation Status - {{selectedMonth}} on {{year}}</h3>
+        <table class="table" style="margin-bottom: 0px;border: 1px solid black">
+            <col style="width: 30%">
             <col style="width: 15%">
-            <col style="width: 20%">
-            <col style="width: 20%">
+            <col style="width: 15%">
+            <col style="width: 15%">
+            <col style="width: 15%">
             <col style="width: 10%">
-            <thead style="background-color: #eeeeee">
-                <tr>
-                    <th>Month</th>
+            <thead style="background-color: #eeeeee;">
+                <tr style="border: 1px solid black; height: 70px">
                     <th>Department</th>
                     <th>Annual Target</th>
-                    <th>Received by the manager</th>
-                    <th>Evaluated kaizens</th>
+                    <th>Total Received Kaizens</th>
+                    <th>Total Evaluated Kaizens</th>
+                    <th>Total Pending Kaizens to Evaluate</th>
                     <th>Status</th>
                 </tr>
             </thead>
         </table>
 
         <div ng-show="tempList.length" class="smart-scroll-y" style="height: calc(100vh - 225px);">
-            <table class="table table-bordered">
-                <col style="width: 10%">
-                <col style="width: 25%">
+            <table class="table" style="border: 1px solid black">
+                <col style="width: 30%">
                 <col style="width: 15%">
-                <col style="width: 20%">
-                <col style="width: 20%">
+                <col style="width: 15%">
+                <col style="width: 15%">
+                <col style="width: 15%">
                 <col style="width: 10%">
                 <tbody>
-                    <tr ng-repeat="summary in tempList">
-                        <td class="text-center">{{summary[0]| date:"MMMM"}}</td>
-                        <td class="text-center">{{summary[1]}}</td>
-                        <td class="text-center">{{summary[2]}}</td>
-                        <td class="text-center">{{summary[3]}}</td>
-                        <td class="text-center">{{summary[4]}}</td>
-                        <td>
-                            <label class="label label-success" ng-if="summary[4] / summary[3] * 100 === 100">complete</label>
-                            <label class="label label-danger" ng-if="summary[4] / summary[3] !== 1">Not complete</label>
-                        </td>
+                    <tr ng-repeat="summary in countList" style="border: 1px solid black">
+                        <td>{{summary[1]}}</td>
+                        <td style="text-align: center">{{summary[0]}}</td>
+                        <td style="text-align: center">{{summary[2]}}</td>
+                        <td style="text-align: center">{{summary[3]}}</td>
+                        <td style="text-align: center">{{summary[2] - summary[3]}}</td>
+                        <td ng-style="myStyle">
+                            <label>{{getPrasentage(summary[3], summary[2])}} {{status}}</label>
+                        </td><!--
+                        <!--                        <td ng-show="summary[3] / summary[2] * 100 === 100" style="background-color: #00cc00">
+                                                    <label class="label label-success" ng-if="summary[3] / summary[2] * 100 === 100">{{getPrasentage(summary[3], summary[2])}}% complete</label>
+                                                </td>
+                                                <td ng-show="summary[3] / summary[2] !== 1" style="background-color: #ff3333">
+                                                    <label class="label label-danger" ng-if="summary[3] / summary[2] !== 1">{{getPrasentage(summary[3], summary[2])}}% Not complete</label>
+                                                </td>-->
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div style="height: 30px;" ng-show="countList.length">
+            <table class="table">
+                <col style="width: 30%">
+                <col style="width: 15%">
+                <col style="width: 15%">
+                <col style="width: 15%">
+                <col style="width: 15%">
+                <col style="width: 10%">
+                <tbody>
+                    <tr style="border: 1px solid #000">
+                        <td>TOTAL</td>
+                        <td style="text-align: center">{{totalTargets}}</td>
+                        <td style="text-align: center">{{totalReceved}}</td>
+                        <td style="text-align: center">{{totalEvaluated}}</td>
+                        <td style="text-align: center">{{totalPending}}</td>
+                        <td></td>
                     </tr>
                 </tbody>
             </table>
         </div>
     </div>
     <div class="col-lg-12 placeholder bordered border-default" style="height: calc(100vh - 225px)"  ng-hide="countList.length">
-        <h1 class="text-center mt200" style="">REPORT DETAILS ARE EMPTY</h1>
+        <h1 class="text-center mt200" style="">REPORT DETAILS EMPTY</h1>
     </div>
     <div class="col-sm-12" style="margin-top: 14px;margin-bottom: 14px;">
         <!--        <button type="button" class="pull-right btn btn-info" ng-click="print('printDiv')" ng-hide="printMode === 'true'">

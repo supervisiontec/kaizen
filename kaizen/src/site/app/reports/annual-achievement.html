@@ -14,8 +14,7 @@
         </div>
     </div><br>
 
-    <div class="col-sm-12" id="printDiv">
-        <h3 class="text-center" ng-show="printMode === 'true'">Annual Achievement Report on {{year}}</h3>
+    <div class="col-sm-12">
         <table class="table" style="margin-bottom: 0px">
             <col style="width: 25%">
             <col style="width: 15%">
@@ -42,8 +41,49 @@
                         <td>{{summary[1]}}</td>
                         <td>{{summary[2]}}</td>
                         <td><label ng-if="summary[3] === null">0</label><label ng-if="summary[3] !== null">{{summary[3]}}</label></td>
-                        <td><label class="label label-success" ng-if="summary[2] <= summary[3]" ng-show="summary[2] <= summary[3]">Achieved</label>
-                            <label class="label label-danger" ng-if="summary[2] > summary[3]" ng-show="summary[2] > summary[3]">Not Achieved</label>
+                        <td ng-style="myStyle">
+                            {{getAnnualAchived(summary[2],summary[3])}}
+<!--                            <label class="label label-success" ng-if="summary[2] <= summary[3]" ng-show="summary[2] <= summary[3]">Achieved</label>
+                            <label class="label label-danger" ng-if="summary[2] > summary[3]" ng-show="summary[2] > summary[3]">Not Achieved</label>-->
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    
+    <div class="col-sm-12" style="display: none" id="printDiv">
+        <h3 class="text-center" ng-show="printMode === 'true'">Annual Achievement Report on {{year}}</h3>
+        <table class="table" style="margin-bottom: 0px; border: 1px solid #000000">
+            <col style="width: 25%">
+            <col style="width: 15%">
+            <col style="width: 20%">
+            <col style="width: 10%">
+            <thead>
+                <tr style="border: 1px solid #000000; height: 50px">
+                    <th>Department</th>
+                    <th>Annual Target</th>
+                    <th>Up to date Kaizen Achievement</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+        </table>
+
+        <div class="smart-scroll-y" style="height: calc(100vh - 210px);" ng-show="summaryList.length">
+            <table class="table" style=" border: 1px solid #000000">
+                <col style="width: 25%">
+                <col style="width: 15%">
+                <col style="width: 20%">
+                <col style="width: 10%">
+                <tbody>
+                    <tr ng-repeat="summary in summaryList" style="border: 1px solid #000000">
+                        <td>{{summary[1]}}</td>
+                        <td style="text-align: center">{{summary[2]}}</td>
+                        <td style="text-align: center"><label ng-if="summary[3] === null">0</label><label ng-if="summary[3] !== null">{{summary[3]}}</label></td>
+                        <td ng-style="myStyle">
+                            {{getAnnualAchived(summary[2],summary[3])}}
+<!--                            <label class="label label-success" ng-if="summary[2] <= summary[3]" ng-show="summary[2] <= summary[3]">Achieved</label>
+                            <label class="label label-danger" ng-if="summary[2] > summary[3]" ng-show="summary[2] > summary[3]">Not Achieved</label>-->
                         </td>
                     </tr>
                 </tbody>
@@ -51,7 +91,7 @@
         </div>
     </div>
     <div class="col-lg-12 placeholder bordered border-default" style="height: calc(100vh - 210px)"  ng-hide="summaryList.length">
-        <h1 class="text-center mt200" style="">REPORT DETAILS ARE EMPTY</h1>
+        <h1 class="text-center mt200" style="">REPORT DETAILS EMPTY</h1>
     </div>
     <div class="col-sm-12" style="margin-top: 8px;margin-bottom: 8px;">
 <!--        <button type="button" class="pull-right btn btn-info" ng-click="print('printDiv')" ng-hide="printMode === 'true'">

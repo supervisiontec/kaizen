@@ -133,7 +133,7 @@
                     var blob = new Blob([document.getElementById('printDiv').innerHTML], {
                         type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=utf-8"
                     });
-                    FileSaver.saveAs(blob, "Report.xls");
+                    FileSaver.saveAs(blob, "mypdf.xls");
                 };
 
                 $scope.printFuntion = function () {
@@ -145,20 +145,23 @@
                 };
 
                 $scope.print = function (divName) {
-                    $scope.printFuntion();
-//                    $scope.printMode = 'true';
+//                    $scope.printFuntion();
+                    $scope.printMode = 'true';
 
-//                    $timeout(function () {
-//                        w = window.open();
-//                        w.document.write(document.getElementById('printDiv').innerHTML);
-//                        w.print();
-//                        w.close();
+                    $timeout(function () {
+                        w = window.open();
+                        w.document.write(document.getElementById('printDiv').innerHTML);
+                        w.print();
+                        w.close();
 //                        $window.print();
-//                        $scope.printMode = 'false';
-//                    }, 500);
+                        $scope.printMode = 'false';
+                    }, 500);
 
 //                    var printContents = document.getElementById(divName).innerHTML;
 //                    var originalContents = document.body.innerHTML;
+//                    
+//                    console.log(printContents)
+//                    
 //
 //                    document.body.innerHTML = "<html><head><title></title></head><body>" + printContents + "</body>";
 //
@@ -222,8 +225,38 @@
                     }
                     $rootScope.evaluateYear = year;
                 };
+                
+                $scope.getmonth = function (month){
+                    if (month === '01') {
+                        $scope.selectedMonth = "Jan";
+                    } else if (month === '02') {
+                        $scope.selectedMonth = "Feb";
+                    } else if (month === '03') {
+                        $scope.selectedMonth = "Mar";
+                    } else if (month === '04') {
+                        $scope.selectedMonth = "Apr";
+                    } else if (month === '05') {
+                        $scope.selectedMonth = "May";
+                    } else if (month === '06') {
+                        $scope.selectedMonth = "Jun";
+                    } else if (month === '07') {
+                        $scope.selectedMonth = "Jul";
+                    } else if (month === '08') {
+                        $scope.selectedMonth = "Aug";
+                    } else if (month === '09') {
+                        $scope.selectedMonth = "Sep";
+                    } else if (month === '10') {
+                        $scope.selectedMonth = "Oct";
+                    } else if (month === '11') {
+                        $scope.selectedMonth = "Nov";
+                    } else if (month === '12') {
+                        $scope.selectedMonth = "Dec";
+                    }
+                };
 
                 $scope.selectEvaluateMonth = function (month) {
+                    $scope.showMode === 'selectMonth';
+                    $scope.getmonth(month);
                     $scope.getEvaluateDetails($rootScope.evaluateYear, month);
                 };
 
@@ -322,6 +355,7 @@
                 };
 
                 $scope.selectTop5Month = function (month) {
+                    $scope.getmonth(month);
                     $scope.getTop5Kaizen($rootScope.top5year, month);
                 };
 
@@ -344,6 +378,7 @@
                 };
 
                 $scope.selectTop10Month = function (month) {
+                    $scope.getmonth(month);
                     $scope.getTop10Kaizen($rootScope.top10year, month);
                 };
 
@@ -476,15 +511,85 @@
                 $scope.getPrasentage = function (value3, value2) {
                     var val = (value3 / value2 * 100);
                     if (isNaN(val)) {
-                        val = 0;
+                        $scope.status = "No Kaizens";
+                        $scope.myStyle = {
+                            "backgroundColor": "white"
+                        };
+                    } else if (value3 === value2) {
+                        $scope.status = "";
+                        $scope.myStyle = {
+                            "backgroundColor": "green"
+                        };
+                    } else {
+                        $scope.status = "";
+                        $scope.myStyle = {
+                            "backgroundColor": "red"
+                        };
                     }
-                    return Math.round(val);
-//                    return matchMedia() val;
+                };
+
+                $scope.getAnnualAchived = function (val1, val2) {
+                    if (val1 <= val2) {
+                        $scope.myStyle = {
+                            "backgroundColor": "green"
+                        };
+                    } else if (val1 > val2) {
+                        $scope.myStyle = {
+                            "backgroundColor": "red"
+                        };
+                    }
+
+                };
+
+                $scope.getAnnualMonthlyStatus = function (target, department) {
+                    var totalKizan = null;
+                    angular.forEach($scope.monthWiseList, function (data) {
+                        if (department === data.department) {
+                            totalKizan += parseInt(data.achieved);
+                            return;
+                        }
+
+                    });
+                    if (target > totalKizan) {
+                        $scope.myStyle = {
+                            "backgroundColor": "red"
+                        };
+                    } else if (target <= totalKizan) {
+                        $scope.myStyle = {
+                            "backgroundColor": "green"
+                        };
+                    }
+                };
+
+                $scope.getTotals = function (target, receved, evaluated) {
+                    var totalTarget = 0;
+                    var totalReceved = 0;
+                    var totalEvaluated = 0;
+                    angular.forEach($scope.countList, function (values) {
+                        totalTarget += values[0];
+                        totalReceved += values[2];
+                        totalEvaluated += values[3];
+                        return;
+                    });
+                    $scope.totalTargets = totalTarget;
+                    $scope.totalReceved = totalReceved;
+                    $scope.totalEvaluated = totalEvaluated;
+                    $scope.totalPending = $scope.totalReceved - $scope.totalEvaluated; 
+
+//                    var totalAnualTarget = target;
+//                    if(totalAnualTarget){
+//                        
+//                    }
+//                  var total = totalAnualTarget += target;
+//                    console.log(totalAnualTarget +"value")
+//                    console.log(totalAnualTarget)
+//                    $scope.totalReceved = $scope.totalReceved += receved;
                 };
 
 
 
                 $scope.init = function () {
+//                    $scope.totalAnualTarget = null;
                     $rootScope.costSavingYear = null;
                     $rootScope.costSavingMonth = null;
                     $rootScope.department = null;

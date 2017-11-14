@@ -14,8 +14,7 @@
         </div>
     </div><br>
 
-    <div class="col-sm-12" id="printDiv">
-        <h3 class="text-center" ng-show="printMode === 'true'">Best Kaizens Report</h3>
+    <div class="col-sm-12">
         <table class="table" style="margin-bottom: 0px">
             <col style="width: 25%">
             <col style="width: 15%">
@@ -41,24 +40,61 @@
                 <col style="width: 25%">
                 <col style="width: 15%">
                 <tbody>
-                    <tr ng-repeat="employee in BestKaizenList | orderBy:'date'">
+                    <tr ng-repeat="employee in BestKaizenList| orderBy:'date'">
                         <td>{{employee.date| date:'MMMM'}}</td>
                         <td>{{employee.epfNo}}</td>
                         <td>{{employee.name}}</td>
                         <td >{{employee.department}}</td>
-                       <td><image id="userImg"  ng-src="{{getEmployeeImage(employee.epfNo)}}"  height="100px" width="100px" /></td>
+                        <td><image id="userImg"  ng-src="{{getEmployeeImage(employee.epfNo)}}"  height="100px" width="100px" /></td>
                     </tr>
                 </tbody>
             </table>
         </div>
     </div>
-         <div class="col-lg-12 placeholder bordered border-default" style="height: calc(100vh - 200px)"  ng-hide="BestKaizenList.length">
-            <h1 class="text-center mt200" style="">REPORT DETAILS ARE EMPTY</h1>
+
+    <!--print div-->
+    <div class="col-sm-12" style="display: none" id="printDiv">
+        <h3 class="text-center" ng-show="printMode === 'true'">Best Kaizens Report On {{year}}</h3>
+        <table class="table" style="margin-bottom: 0px; border: 1px solid #000">
+            <col style="width: 25%">
+            <col style="width: 25%">
+            <col style="width: 25%">
+            <col style="width: 25%">
+            <thead>
+                <tr style="border: 1px solid #000; height: 50px">
+                    <th>Month</th>
+                    <th>EPF No</th>
+                    <th>Name</th>
+                    <th>Department</th>
+                </tr>
+            </thead>
+        </table>
+
+        <div  class="smart-scroll-y" style="height: calc(100vh - 200px);" ng-show="BestKaizenList.length">
+            <table class="table" style="border: 1px solid #000">
+                <col style="width: 25%">
+                <col style="width: 25%">
+                <col style="width: 25%">
+                <col style="width: 25%">
+                <tbody>
+                    <tr ng-repeat="employee in BestKaizenList| orderBy:'date'" style="border: 1px solid #000">
+                        <td style="text-align: center">{{employee.date| date:'MMMM'}}</td>
+                        <td style="text-align: center">{{employee.epfNo}}</td>
+                        <td style="text-align: center">{{employee.name}}</td>
+                        <td style="text-align: center">{{employee.department}}</td>
+                    </tr>
+                </tbody>
+            </table>
         </div>
+    </div>
+
+    <div class="col-lg-12 placeholder bordered border-default" style="height: calc(100vh - 200px)"  ng-hide="BestKaizenList.length">
+        <h1 class="text-center mt200" style="">REPORT DETAILS ARE EMPTY</h1>
+    </div>
     <div class="col-sm-12">
-<!--        <button type="button" class="pull-right btn btn-info" ng-click="print('printDiv')" ng-hide="printMode === 'true'">
-            <span class="glyphicon glyphicon-print"></span> Print
-        </button>-->
+        <!--        <button type="button" class="pull-right btn btn-info" ng-click="print('printDiv')" ng-hide="printMode === 'true'">
+                    <span class="glyphicon glyphicon-print"></span> Print
+                </button>-->
         <button style="margin-right: 10px;" type="button" class="pull-right btn btn-info" ng-click="exportData()" ng-hide="printMode === 'true'">
             <span class="glyphicon glyphicon-download"></span> Export Excel
         </button>

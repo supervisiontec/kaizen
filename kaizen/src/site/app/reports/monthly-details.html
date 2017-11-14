@@ -13,11 +13,11 @@
         </div>
     </div><br>
 
-    <div class="col-lg-12" id="printDiv">
-        <h2 class="text-center" ng-show="printMode === 'true'">{{year}} Monthly Report</h2>
-        <table  class="table table-bordered" style="margin-bottom: 0px">
+    <div class="col-lg-12">
+        <table  class="table table-bordered" style="margin-bottom: 0px" >
             <col style="width: 15%">
-            <col style="width: 15%">
+            <col style="width: 10%">
+            <col style="width: 5%">
             <col style="width: 5%">
             <col style="width: 5%">
             <col style="width: 5%">
@@ -48,14 +48,16 @@
                     <th>Nov</th>
                     <th>Dec</th>
                     <th>Total</th>
+                    <th>Status</th>
                 </tr>
             </thead>
         </table>
 
         <div class="smart-scroll-y" style="height: calc(100vh - 250px);"  ng-show="showMode === 'selectyear'">
-            <table class="table table-bordered">
+            <table class="table">
                 <col style="width: 15%">
-                <col style="width: 15%">
+                <col style="width: 10%">
+                <col style="width: 5%">
                 <col style="width: 5%">
                 <col style="width: 5%">
                 <col style="width: 5%">
@@ -72,11 +74,12 @@
                 <tbody>
                     <tr ng-repeat="(key,value) in monthWiseList| groupBy:'department'">
                         <td>{{key}}</td>
-                        <td>{{value[0].target}}</td>
+                        <td style="background-color: #bbefea">{{value[0].target}}</td>
                         <td ng-repeat="month in [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]">
                             <span>{{getMonthlyCount(month, value[0].department)}}</span>
                         </td>
-                        <td>{{totalKizanCount(value[0].department)}}</td>
+                        <td style="background-color: #faef9f">{{totalKizanCount(value[0].department)}}</td>
+                        <td ng-style="myStyle">{{getAnnualMonthlyStatus(value[0].target,value[0].department)}}</td>
                     </tr>
                 </tbody>
             </table>
@@ -87,7 +90,8 @@
         <div style="height: 30px;" ng-show="showMode === 'selectyear'">
             <table class="table">
                 <col style="width: 15%">
-                <col style="width: 15%">
+                <col style="width: 10%">
+                <col style="width: 5%">
                 <col style="width: 5%">
                 <col style="width: 5%">
                 <col style="width: 5%">
@@ -103,7 +107,7 @@
                 <col style="width: 10%">
                 <tbody>
                     <tr>
-                        <td></td>
+                        <td>TOTAL</td>
                         <td>{{totalTarget()}}</td>
                         <td>{{monthTotal(1)}}</td>
                         <td>{{monthTotal(2)}}</td>
@@ -118,18 +122,90 @@
                         <td>{{monthTotal(11)}}</td>
                         <td>{{monthTotal(12)}}</td>
                         <td>{{achivedTotal()}}</td>
+                        <td></td>
                     </tr>
                 </tbody>
             </table>
         </div>
     </div>
+    
+    <!--print div-->
+    <div class="col-lg-12" style="display: none" id="printDiv">
+        <h2 class="text-center" ng-show="printMode === 'true'">KAIZEN ACHIEVEMENT ON {{year}}</h2>
+        <table  class="table table-bordered" style="margin-bottom: 0px; border: 1px solid #000000">
+            <thead>
+                <tr style="border: 1px solid #000000">
+                    <th>Department</th>
+                    <th>Annual Target</th>
+                    <th>January</th>
+                    <th>February</th>
+                    <th>March</th>
+                    <th>April</th>
+                    <th>May</th>
+                    <th>June</th>
+                    <th>July</th>
+                    <th>August</th>
+                    <th>September</th>
+                    <th>October</th>
+                    <th>November</th>
+                    <th>December</th>
+                    <th>Total Achievement</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+        </table>
+
+        <div class="smart-scroll-y" style="height: calc(100vh - 250px);"  ng-show="showMode === 'selectyear'">
+            <table class="table" style="border: 1px solid #000000">
+                <tbody>
+                    <tr ng-repeat="(key,value) in monthWiseList| groupBy:'department'" style="border: 1px solid black">
+                        <td>{{key}}</td>
+                        <td style="background-color: #bbefea;text-align: center">{{value[0].target}}</td>
+                        <td style="text-align: center" ng-repeat="month in [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]">
+                            <span>{{getMonthlyCount(month, value[0].department)}}</span>
+                        </td>
+                        <td style="background-color: #faef9f;text-align: center">{{totalKizanCount(value[0].department)}}</td>
+                        <td ng-style="myStyle">{{getAnnualMonthlyStatus(value[0].target,value[0].department)}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+
+
+        <div style="height: 30px;" ng-show="showMode === 'selectyear'">
+            <table class="table" style="border: 1px solid #000000">
+                <tbody>
+                    <tr style="border: 1px solid #000000">
+                        <td>TOTAL</td>
+                        <td style="text-align: center">{{totalTarget()}}</td>
+                        <td style="text-align: center">{{monthTotal(1)}}</td>
+                        <td style="text-align: center">{{monthTotal(2)}}</td>
+                        <td style="text-align: center">{{monthTotal(3)}}</td>
+                        <td style="text-align: center">{{monthTotal(4)}}</td>
+                        <td style="text-align: center">{{monthTotal(5)}}</td>
+                        <td style="text-align: center">{{monthTotal(6)}}</td>
+                        <td style="text-align: center">{{monthTotal(7)}}</td>
+                        <td style="text-align: center">{{monthTotal(8)}}</td>
+                        <td style="text-align: center">{{monthTotal(9)}}</td>
+                        <td style="text-align: center">{{monthTotal(10)}}</td>
+                        <td style="text-align: center">{{monthTotal(11)}}</td>
+                        <td style="text-align: center">{{monthTotal(12)}}</td>
+                        <td style="text-align: center">{{achivedTotal()}}</td>
+                        <td style="text-align: center"></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    
     <div class="col-lg-12 placeholder bordered border-default" style="height: calc(100vh - 220px)"  ng-hide="showMode === 'selectyear' || printMode === 'true'">
-        <h1 class="text-center mt200" style="">REPORT DETAILS ARE EMPTY</h1>
+        <h1 class="text-center mt200" style="">REPORT DETAILS EMPTY</h1>
     </div>
     <div class="col-sm-12" style="margin-top: 18px; margin-bottom: 4px;">
-<!--        <button type="button" class="pull-right btn btn-info" ng-click="print('printDiv')" ng-hide="printMode === 'true'">
-            <span class="glyphicon glyphicon-print"></span> Print
-        </button>-->
+        <!--        <button type="button" class="pull-right btn btn-info" ng-click="print('printDiv')" ng-hide="printMode === 'true'">
+                    <span class="glyphicon glyphicon-print"></span> Print
+                </button>-->
         <button style="margin-right: 10px;" type="button" class="pull-right btn btn-info" ng-click="exportData()" ng-hide="printMode === 'true'">
             <span class="glyphicon glyphicon-download"></span> Export Excel
         </button>
