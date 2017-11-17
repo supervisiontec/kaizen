@@ -94,8 +94,8 @@
                     employeeCreativity: 0,
                     employeeSafety: 0,
                     employeeQuality: 0,
-                    actualCost: null,
-                    introduceDate : null
+                    actualCost: null
+//                    introduceDate : null
                 };
                 $scope.model.document = {
                     indexNo: null,
@@ -167,7 +167,7 @@
                 //validate model
                 $scope.validateInput = function () {
                     if ($rootScope.employee && $scope.model.kaizen.title
-                            && $scope.model.kaizen.description && $scope.model.kaizen.introduceDate) {
+                            && $scope.model.kaizen.description) {
                         return true;
                     } else {
                         return false;

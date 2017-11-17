@@ -85,7 +85,7 @@ public class KaizenService {
                 + (15 / 5 * Integer.parseInt(kaizen.getEmployeeQuality())) + (20 / 5 * Integer.parseInt(kaizen.getEmployeeSafety()))
                 + (15 / 5 * Integer.parseInt(kaizen.getEmployeeUtilization()));
 
-//        kaizen.setIntroduceDate(new Date());
+        kaizen.setIntroduceDate(new Date());
 
 //        //if manager kaizen then automatically manager approve
         Employee employee = employeeRepository.findOne(kaizen.getEmployee());
