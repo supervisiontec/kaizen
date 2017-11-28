@@ -47,10 +47,10 @@ public class KaizenController {
         return kaizenService.getKaizenByMonth(year, month, company);
     }
 //
-    @RequestMapping(value = "/department-month-kaizen/month/department/{year}/{month}/{department}/{company}", method = RequestMethod.GET)
-    public List<TKaizen> getKaizenByDepartmentAndMonth(@PathVariable String year, @PathVariable String month, @PathVariable int company,@PathVariable Integer department) {
-        return kaizenService.getKaizenByDepartmentAndMonth(year,month,company,department);
-    }
+//    @RequestMapping(value = "/department-month-kaizen/month/department/{year}/{month}/{department}/{company}", method = RequestMethod.GET)
+//    public List<TKaizen> getKaizenByDepartmentAndMonth(@PathVariable String year, @PathVariable String month, @PathVariable int company,@PathVariable Integer department) {
+//        return kaizenService.getKaizenByDepartmentAndMonth(year,month,company,department);
+//    }
 
     @RequestMapping(value = "/employee-kaizen/{epfNo}", method = RequestMethod.GET)
     public List<TKaizen> getKaizenByEmployee(@PathVariable String epfNo) {
@@ -90,4 +90,10 @@ public class KaizenController {
     public TKaizen sendAppreciationEmail(@RequestBody Mail mail, @PathVariable("indexNo") Integer indexNo) {
         return kaizenService.Appreciation(mail, indexNo);
     }
+    
+    @RequestMapping(value = "/defult-appreciation/{indexNo}", method = RequestMethod.GET)
+    public void defultAppreciationEmail(@PathVariable("indexNo") Integer indexNo) {
+        kaizenService.defultAppreciation(indexNo);
+    }
+    
 }

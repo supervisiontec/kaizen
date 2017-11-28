@@ -188,12 +188,15 @@
                     $scope.model.kaizen.type = $rootScope.type;
                     $scope.model.kaizen.actualCost = $rootScope.actualCost;
                     $scope.model.kaizen.company = $rootScope.company;
+                    
+                    $rootScope.mailEmpIndex = $rootScope.employee;;
                     var details = $scope.model.kaizen;
                     var detailJSON = JSON.stringify(details);
                     kaizenFactory.saveKaizen(
                             detailJSON,
                             function (data) {
                                 if ($rootScope.UserMode === "group_user") {
+                                    $scope.uploadForm(data.indexNo);
                                     $rootScope.fileList = [[]];
                                     Notification.success(data.indexNo + " - " + "Kaizen Saved Successfully.");
                                     $scope.model.resetEmployee();
@@ -201,6 +204,11 @@
                                     $scope.beforeImageModel = [];
                                     $scope.afterImageModel = [];
                                     $rootScope.sendMode = null;
+
+                                    var url = systemConfig.apiUrl + "/api/kaizen/defult-appreciation/" +  $rootScope.mailEmpIndex;
+                                    $http.get(url)
+                                            .success(function (data, status, headers) {
+                                            });
                                 } else {
                                     angular.forEach($scope.employees, function (val) {
                                         if (val.indexNo === data.employee) {
@@ -223,6 +231,11 @@
                                     $scope.beforeImageModel = [];
                                     $scope.afterImageModel = [];
                                     $rootScope.fileList = [[]];
+                                    
+                                    var url = systemConfig.apiUrl + "/api/kaizen/defult-appreciation/" +  $rootScope.mailEmpIndex;
+                                    $http.get(url)
+                                            .success(function (data, status, headers) {
+                                            });
                                 }
                             },
                             function (data) {

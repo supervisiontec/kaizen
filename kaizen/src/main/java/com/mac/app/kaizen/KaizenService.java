@@ -104,21 +104,6 @@ public class KaizenService {
             kaizen.setEmployeeComplete(EMPLOYEE_COMPLETE);
             kaizen.setManagerComplete(MANAGER_COMPLETE);
 
-            if (employee.getEmail() != null || employee.getEmail() != "") {
-                try {
-                    MimeMessagePreparator messagePreparator = mimeMessage -> {
-                        MimeMessageHelper messageHelper = new MimeMessageHelper(mimeMessage);
-                        messageHelper.setFrom("kaizencommittee1@gmail.com");
-                        messageHelper.setTo(employee.getEmail());
-//                        messageHelper.setTo("niduraprageeth@gmail.com");
-                        messageHelper.setSubject("Kaizen Appreciation");
-                        messageHelper.setText("Hi (" + employee.getName() + "),\n\nTHANK YOU !!! for your effort towards improving the continues improvement culture in Linea Aqua.\n\nWe have considered your Kaizen in the " + new Date() + " kaizen forum and found it as a valuable idea for Linea Aqua.\n\nWe hope you will keep doing Kaizens to bring Linea Aqua to the next level.\n\nThanks & Regards,\nKaizen Committee");
-                    };
-                    mailSender.send(messagePreparator);
-                } catch (MailException e) {
-                    System.out.println(e);
-                }
-            }
         } else {
             kaizen.setReviewStatus(KAIZEN_PENDING);
             kaizen.setEmployeeComplete(EMPLOYEE_COMPLETE);
@@ -293,8 +278,24 @@ public class KaizenService {
         return kaizenRepository.findByDate(year, month, company);
     }
 
-    List<TKaizen> getKaizenByDepartmentAndMonth(String year, String month, int company, Integer department) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    @Transactional
+    public void defultAppreciation(Integer indexNo) {
+        Employee employee = employeeRepository.findOne(indexNo);
+        if (employee.getEmail() != null || employee.getEmail() != "") {
+            try {
+                MimeMessagePreparator messagePreparator = mimeMessage -> {
+                    MimeMessageHelper messageHelper = new MimeMessageHelper(mimeMessage);
+                    messageHelper.setFrom("kaizencommittee1@gmail.com");
+                    messageHelper.setTo(employee.getEmail());
+//                        messageHelper.setTo("niduraprageeth@gmail.com");
+                    messageHelper.setSubject("Kaizen Appreciation");
+                    messageHelper.setText("Hi (" + employee.getName() + "),\n\nTHANK YOU !!! for your effort towards improving the continues improvement culture in Linea Aqua.\n\nWe have considered your Kaizen in the " + new Date() + " kaizen forum and found it as a valuable idea for Linea Aqua.\n\nWe hope you will keep doing Kaizens to bring Linea Aqua to the next level.\n\nThanks & Regards,\nKaizen Committee");
+                };
+                mailSender.send(messagePreparator);
+            } catch (MailException e) {
+                System.out.println(e);
+            }
+        }
     }
 
 }
