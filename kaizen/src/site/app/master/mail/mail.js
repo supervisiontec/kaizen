@@ -17,10 +17,10 @@
 
 
                 $scope.sendMail = function () {
-                    if ($rootScope.radioType === null) {
+                    if ($scope.radioType === null) {
                         Notification.error("Please select manager or committee");
                     } else {
-                        if ($rootScope.radioType === 'manager') {
+                        if ($scope.radioType === 'manager') {
                             $scope.mode = "sending";
                             var date = $filter('date')($scope.selectDate, 'dd');
                             if (!date) {
@@ -60,15 +60,16 @@
                 };
                 $scope.changeRadio = function (radio) {
                     if (radio === true) {
-                        $rootScope.radioType = 'manager';
+                        $scope.radioType = 'manager';
                         document.getElementById('date').disabled = false;
                     } else {
-                        $rootScope.radioType = 'committee';
+                        $scope.radioType = 'committee';
                         document.getElementById('date').disabled = true;
                     }
                 };
                 $scope.init = function () {
-                    $rootScope.radioType = null;
+                    console.log("mail update 2017-05-12");
+                    $scope.radioType = null;
 
                 };
                 $scope.init();

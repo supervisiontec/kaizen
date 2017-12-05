@@ -82,9 +82,13 @@ public class EmployeeService {
     }
 
     public void sendMail(Mail mail,int company) {
+         System.out.println("start manager mail");
+//            System.out.println(mail.getSubject());
+//            System.out.println(mail.getMessage());
         //send email to all managers
         List<Employee> managers = employeeRepository.findByTypeAndCompany(EMPLOYEE_TYPE,company);
         for (Employee manager : managers) {
+//            System.out.println(manager.getName() + "  " + manager.getEmail() +"  "+ manager.getType());
             if (manager.getEmail() != null) {
                 try {
                     MimeMessagePreparator messagePreparator = mimeMessage -> {
@@ -102,30 +106,32 @@ public class EmployeeService {
             }
         }
 
-        List<Employee> committeees = employeeRepository.findByTypeAndCompany(EMPLOYEE_TYPE2,company);
-        for (Employee committeee : committeees) {
-            if (committeee.getEmail() != null) {
-                try {
-                    MimeMessagePreparator messagePreparator = mimeMessage -> {
-                        MimeMessageHelper messageHelper = new MimeMessageHelper(mimeMessage);
-                        messageHelper.setFrom("kaizencommittee1@gmail.com");
-                        messageHelper.setTo(committeee.getEmail());
-//                        messageHelper.setTo("niduraprageeth@gmail.com");
-                        messageHelper.setSubject("Kaizen Committee reminding mail");
-                        messageHelper.setText("Hi All,\n\n Please note that last month kaizens are now ready for the kaizen committee review,Appreciate\n your assistance in evaluating kaizens at Linea Aqua.\n\n Thanks,\n\n Kaizen admin");
-                    };
-                    mailSender.send(messagePreparator);
-                } catch (MailException e) {
-                    System.out.println(e);
-                }
-            }
-        }
+//        List<Employee> committeees = employeeRepository.findByTypeAndCompany(EMPLOYEE_TYPE2,company);
+//        for (Employee committeee : committeees) {
+//            if (committeee.getEmail() != null) {
+//                try {
+//                    MimeMessagePreparator messagePreparator = mimeMessage -> {
+//                        MimeMessageHelper messageHelper = new MimeMessageHelper(mimeMessage);
+//                        messageHelper.setFrom("kaizencommittee1@gmail.com");
+//                        messageHelper.setTo(committeee.getEmail());
+////                        messageHelper.setTo("niduraprageeth@gmail.com");
+//                        messageHelper.setSubject("Kaizen Committee reminding mail");
+//                        messageHelper.setText("Hi All,\n\n Please note that last month kaizens are now ready for the kaizen committee review,Appreciate\n your assistance in evaluating kaizens at Linea Aqua.\n\n Thanks,\n\n Kaizen admin");
+//                    };
+//                    mailSender.send(messagePreparator);
+//                } catch (MailException e) {
+//                    System.out.println(e);
+//                }
+//            }
+//        }
     }
 
     public void sendMailCommittee(Mail mail,int company) {
+        System.out.println("start committe mail");
         //send email to all committee
         List<Employee> committeees = employeeRepository.findByTypeAndCompany(EMPLOYEE_TYPE2,company);
         for (Employee committeee : committeees) {
+//            System.out.println(committeee.getName() + "  " + committeee.getEmail() +"  "+ committeee.getType());
             if (committeee.getEmail() != null) {
                 try {
                     MimeMessagePreparator messagePreparator = mimeMessage -> {
