@@ -26,10 +26,13 @@
                             if (!date) {
                                 date = 15;
                             }
-                            $scope.emailModel.message = " Hi All,\n\n Please note that your department kaizens are now ready for your review, Please review your \n team kaizens on or before " + date + "th of this month.Appreciate your effort towards improving the \n We hope you will keep doing Kaizens to bring Linea Aqua to the next level.\n continues improvement culture in Linea Aqua.\n\n Thanks,\n\n Kaizen Committee";
-                            $scope.emailModel.subject = "Manager’s reminding mail";
+//                            $scope.emailModel.message = " Hi All,\n\n Please note that your department kaizens are now ready for your review, Please review your \n team kaizens on or before " + date + "th of this month.Appreciate your effort towards improving the \n We hope you will keep doing Kaizens to bring Linea Aqua to the next level.\n continues improvement culture in Linea Aqua.\n\n Thanks,\n\n Kaizen Committee";
+//                            $scope.emailModel.subject = "Manager’s reminding mail";
+                            $scope.emailModel.message = " Hi All,\n\n Please note that your department Kaizens are now ready for your review. Please review your team Kaizens on or before " + date + " of this month.Appreciate your effort towards improving the continuous-improvement culture in Linea Aqua.\n\n We hope you will keep doing Kaizens to bring Linea Aqua to the next level.\n\n Thanks,\n\n Kaizen Committee";
+                            $scope.emailModel.subject = "Reminder: Department Kaizen review!!";
                             var url = systemConfig.apiUrl + "/api/employee/send-mail/"+$rootScope.company;
                             var JsonDetail = JSON.stringify($scope.emailModel);
+//                            console.log($scope.emailModel.message)
                             $http.post(url, JsonDetail)
                                     .success(function (data, status, headers) {
                                         $scope.mode = null;
@@ -46,6 +49,7 @@
                             $scope.emailModel.subject = "Kaizen Committee reminding mail";
                             var url = systemConfig.apiUrl + "/api/employee/send-mail-committee/"+$rootScope.company;
                             var JsonDetail = JSON.stringify($scope.emailModel);
+//                            console.log($scope.emailModel.message)
                             $http.post(url, JsonDetail)
                                     .success(function (data, status, headers) {
                                         $scope.mode = null;
@@ -68,7 +72,7 @@
                     }
                 };
                 $scope.init = function () {
-                    console.log("mail update 2017-05-12");
+                    console.log("mail update 2018-01-19");
                     $scope.radioType = null;
 
                 };

@@ -13,6 +13,7 @@ import com.mac.app.kaizen.model.Mail;
 import com.mac.app.kaizen.model.TKaizen;
 import java.io.File;
 import java.io.FileInputStream;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -280,6 +281,8 @@ public class KaizenService {
 
     @Transactional
     public void defultAppreciation(Integer indexNo) {
+         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+         String formatDate = sdf.format(new Date());
         Employee employee = employeeRepository.findOne(indexNo);
         if (employee.getEmail() != null || employee.getEmail() != "") {
             try {
@@ -289,7 +292,7 @@ public class KaizenService {
                     messageHelper.setTo(employee.getEmail());
 //                        messageHelper.setTo("niduraprageeth@gmail.com");
                     messageHelper.setSubject("Kaizen Appreciation");
-                    messageHelper.setText("Hi (" + employee.getName() + "),\n\nTHANK YOU !!! for your effort towards improving the continues improvement culture in Linea Aqua.\n\nWe have considered your Kaizen in the " + new Date() + " kaizen forum and found it as a valuable idea for Linea Aqua.\n\nWe hope you will keep doing Kaizens to bring Linea Aqua to the next level.\n\nThanks & Regards,\nKaizen Committee");
+                    messageHelper.setText("Hi (" + employee.getName() + "),\n\nTHANK YOU !!! for your effort towards improving the continues improvement culture in Linea Aqua.\n\nWe have considered your Kaizen in the " + formatDate + " kaizen forum and found it as a valuable idea for Linea Aqua.\n\nWe hope you will keep doing Kaizens to bring Linea Aqua to the next level.\n\nThanks & Regards,\nKaizen Committee");
                 };
                 mailSender.send(messagePreparator);
             } catch (MailException e) {
