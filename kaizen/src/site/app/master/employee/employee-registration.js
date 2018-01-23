@@ -86,7 +86,7 @@
                     epfNo: "",
                     department: null,
                     branch: null,
-                    email: ""
+                    email: null
                 };
 
                 $scope.employeeList = [];
@@ -98,7 +98,7 @@
                         epfNo: "",
                         department: null,
                         branch: null,
-                        email: "",
+                        email: null,
                         company: null
                     };
 
@@ -244,6 +244,7 @@
 //                };
 
                 $scope.init = function () {
+                    console.log("update-2018-1-23");
                     $scope.numLimit = 15;
 
                     //load employee

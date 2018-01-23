@@ -117,7 +117,6 @@ public class KaizenService {
         return null;
     }
 
-    @Transactional
     public TKaizen kaizenUpdateByManager(Mail mail) {
         TKaizen kaizen1 = kaizenRepository.findOne(mail.getIndexNo());
 
@@ -151,7 +150,6 @@ public class KaizenService {
         return null;
     }
 
-    @Transactional
     public TKaizen kaizenUpdateByCommittee(TKaizen kaizen) {
         TKaizen kaizen1 = kaizenRepository.findOne(kaizen.getIndexNo());
 
@@ -165,7 +163,6 @@ public class KaizenService {
         return kaizenRepository.save(kaizen1);
     }
 
-    @Transactional
     public TKaizen updateKaizenByIndex(Mail mail, Integer indexNo) {
         TKaizen kaizen = kaizenRepository.findOne(indexNo);
         kaizen.setManagerCost(mail.getManagerCost());
@@ -198,7 +195,6 @@ public class KaizenService {
         return null;
     }
 
-    @Transactional
     public TKaizen Appreciation(Mail mail, Integer indexNo) {
         TKaizen kaizen = kaizenRepository.findOne(indexNo);
         kaizen.setManagerCost(mail.getManagerCost());
@@ -232,10 +228,11 @@ public class KaizenService {
         return null;
     }
 
-    @Transactional
     public void deleteKaizen(Integer IndexNo, Mail mail) {
         List<Document> document = documentRepository.findByKaizen(IndexNo);
-
+        documentRepository.delete(document);
+        kaizenRepository.delete(IndexNo);
+        
         if (document != null) {
             if (mail.getEmail() != null || mail.getEmail() != "") {
                 try {
@@ -252,8 +249,6 @@ public class KaizenService {
                     System.out.println(e);
                 }
             }
-            documentRepository.delete(document);
-            kaizenRepository.delete(IndexNo);
 
         } else {
             if (mail.getEmail() != null || mail.getEmail() != "") {
@@ -271,7 +266,7 @@ public class KaizenService {
                     System.out.println(e);
                 }
             }
-            kaizenRepository.delete(IndexNo);
+//            kaizenRepository.delete(IndexNo);
         }
     }
 
@@ -279,10 +274,9 @@ public class KaizenService {
         return kaizenRepository.findByDate(year, month, company);
     }
 
-    @Transactional
     public void defultAppreciation(Integer indexNo) {
-         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-         String formatDate = sdf.format(new Date());
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        String formatDate = sdf.format(new Date());
         Employee employee = employeeRepository.findOne(indexNo);
         if (employee.getEmail() != null || employee.getEmail() != "") {
             try {

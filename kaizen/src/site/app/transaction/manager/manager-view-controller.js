@@ -504,7 +504,7 @@
                 $scope.sendAppreciationMail = function (a) {
                     if ($scope.ui.selectedDataIndex) {
                         if (a === 1) {
-                            if ($scope.emailModel.email) {
+//                            if ($scope.emailModel.email) {
                                 $rootScope.sendMode = "loading2";
                                 var date = $filter('date')(new Date(), 'yyyy-MM-dd');
                                 $scope.emailModel.message = "Hi (" + $rootScope.employeeName + "),\n\nTHANK YOU !!! for your effort towards improving the continues improvement culture in Linea Aqua.\n\nWe have considered your Kaizen in the " + date + " kaizen forum and found it as a valuable idea for Linea Aqua.\n\n\We hope you will keep doing Kaizens to bring Linea Aqua to the next level.\n\nThanks & Regards,\nKaizen Committee";
@@ -539,9 +539,9 @@
                                             $rootScope.sendMode = null;
                                             Notification.error("Send fail");
                                         });
-                            } else {
-                                Notification.error("Email is null");
-                            }
+//                            } else {
+//                                Notification.error("Email is null");
+//                            }
                         } else {
                             Notification.error("Selected kaizen should be greater than 70%");
                         }
@@ -553,7 +553,7 @@
                 $scope.sendAppreciationMail2 = function (a) {
                     if ($scope.ui.selectedDataIndex) {
                         if ($rootScope.managerTotalScore < 70 || a === 1) {
-                            if ($scope.emailModel.email) {
+//                            if ($scope.emailModel.email) {
                                 $rootScope.sendMode = "loading2";
                                 var date = $filter('date')(new Date(), 'yyyy-MM-dd');
                                 $scope.emailModel.message = "Hi (" + $rootScope.employeeName + "),\n\nTHANK YOU !!! for your effort towards improving the continues improvement culture in Linea Aqua.\n\nWe have considered your Kaizen in the " + date + " kaizen forum and found it as a valuable idea for Linea Aqua.\n\n\We hope you will keep doing Kaizens to bring Linea Aqua to the next level.\n\nThanks & Regards,\nKaizen Committee";
@@ -587,9 +587,9 @@
                                             $rootScope.sendMode = null;
                                             Notification.error("Send fail");
                                         });
-                            } else {
-                                Notification.error("Email is null");
-                            }
+//                            } else {
+//                                Notification.error("Email is null");
+//                            }
                         } else {
                             Notification.error("Selected kaizen should be less than 70%");
                         }
@@ -600,7 +600,7 @@
 
                 $scope.sendSuggestion = function () {
                     if ($scope.ui.selectedDataIndex) {
-                        if ($scope.emailModel.email) {
+//                        if ($scope.emailModel.email) {
                             $rootScope.sendMode = "loading2";
 //                        var introduceDate = $filter('date')($rootScope.introduceDate, 'yyyy-MM-dd');
                             var date = $filter('date')(new Date(), 'yyyy-MM-dd');
@@ -627,9 +627,9 @@
                                         $rootScope.sendMode = null;
                                         Notification.error("Send fail");
                                     });
-                        } else {
-                            Notification.error("Email is null");
-                        }
+//                        } else {
+//                            Notification.error("Email is null");
+//                        }
                     } else {
                         Notification.error("Please select kaizen");
 
